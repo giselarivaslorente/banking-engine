@@ -119,7 +119,7 @@ Java, Maven, and PostgreSQL do not need to be installed locally when using Docke
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/YOUR_USERNAME/banking-engine.git
+   git clone https://github.com/giselarivaslorente/banking-engine.git
    cd banking-engine
    ```
 
