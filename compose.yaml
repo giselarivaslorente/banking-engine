@@ -1,0 +1,29 @@
+
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: banking_engine
+      POSTGRES_USER: banking_app
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD first}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U banking_app -d banking_engine"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD first}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/banking_engine
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
